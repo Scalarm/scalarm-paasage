@@ -1,0 +1,25 @@
+[submodule "scalarm/scalarm_experiment_manager"]
+	path = scalarm/scalarm_experiment_manager
+	url = https://github.com/Scalarm/scalarm_experiment_manager.git
+	branch = paasage
+[submodule "scalarm/scalarm_information_service"]
+	path = scalarm/scalarm_information_service
+	url = https://github.com/Scalarm/scalarm_information_service.git
+	branch = paasage
+[submodule "scalarm/scalarm_storage_manager"]
+	path = scalarm/scalarm_storage_manager
+	url = https://github.com/Scalarm/scalarm_storage_manager.git
+	branch = paasage
+[submodule "scalarm/scalarm_simulation_manager_go"]
+	path = scalarm/scalarm_simulation_manager_go
+	url = https://github.com/Scalarm/scalarm_simulation_manager_go
+[submodule "scalarm_service_scripts"]
+	path = scalarm_service_scripts
+	url = https://github.com/kliput/scalarm_service_scripts.git
+	branch = paasage
+[submodule "tests/scalarm-integration-tests"]
+	path = tests/scalarm-integration-tests
+	url = https://github.com/groundnuty/scalarm-integration-tests.git
+[submodule "tests/scalarm-visor-proxy"]
+	path = tests/scalarm-visor-proxy
+	url = https://github.com/groundnuty/scalarm-visor-proxy.git
