@@ -2,7 +2,7 @@ camel model ScalarmModel {
 
 application ScalarmApplication {
 	version: 'v1.0'
-	owner: AGHOrganisation.dkrol
+	owner: AGHOrganisation.morzech
 	deployment models [ScalarmModel.ScalarmDeployment]
 }
 
@@ -29,7 +29,7 @@ organisation model AGHOrganisation {
 		paasage credentials 'morzech_at_agh_dot_edu_dot_pl'
 
 		cloud credentials [
-			Omistack {
+			Flexiant {
 				cloud provider: ScalarmModel.RP_ProviderRequirements.GlobalProviderRequirements
 			}
 		]
