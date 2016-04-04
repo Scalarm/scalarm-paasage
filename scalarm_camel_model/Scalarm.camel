@@ -81,7 +81,7 @@ deployment model ScalarmDeployment {
 		required host CoreIntensiveUbuntuGermanyHostReq
 
 		configuration InformationServiceConfiguration {
-			download: 'curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
+			download: 'apt-get install -y curl && curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
 			install: './paasage-test-scripts-master/install.sh'
 			configure: './paasage-test-scripts-master/configure.sh'
 			start: './paasage-test-scripts-master/start.sh'
@@ -97,7 +97,7 @@ deployment model ScalarmDeployment {
 		required host StorageIntensiveUbuntuGermanyHostReq
 
 		configuration StoreManagerConfiguration {
-			download: 'curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
+			download: 'apt-get install -y curl && curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
 			install: './paasage-test-scripts-master/install.sh'
 			configure: './paasage-test-scripts-master/configure.sh'
 			start: './paasage-test-scripts-master/start.sh'
@@ -114,7 +114,7 @@ deployment model ScalarmDeployment {
 		required host CoreIntensiveUbuntuGermanyHostReq
 
 		configuration ExperimentManagerConfiguration {
-			download: 'curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
+			download: 'apt-get install -y curl && curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
 			install: './paasage-test-scripts-master/install.sh'
 			configure: './paasage-test-scripts-master/configure.sh'
 			start: './paasage-test-scripts-master/start.sh'
@@ -129,7 +129,7 @@ deployment model ScalarmDeployment {
 		required host CPUIntensiveUbuntuGermanyHostReq
 
 		configuration SimulationManagerConfiguration {
-			download: 'curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
+			download: 'apt-get install -y curl && curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
 			install: './paasage-test-scripts-master/install.sh'
 			configure: './paasage-test-scripts-master/configure.sh'
 			start: './paasage-test-scripts-master/start.sh'
@@ -190,350 +190,16 @@ deployment model ScalarmDeployment {
 
 }
 
-requirement model ScalarmRequirement {
+requirement model metrarmRequirement {
 	quantitative hardware DefaultVM {
 		core: 4..6
 		ram: 4096..4096
 	}
 
-
 	os Ubuntu {os: 'Ubuntu' 64os}
 	
 }
 
-metric model ScalarmMetric {
 
-	window Win5Min {
-		window type: SLIDING
-		size type: TIME_ONLY
-		time size: 5
-		unit: ScalarmModel.ScalarmUnit.minutes
-	}
-
-	window Win1Min {
-		window type: SLIDING
-		size type: TIME_ONLY
-		time size: 1
-		unit: ScalarmModel.ScalarmUnit.minutes
-	}
-
-	schedule Schedule1Min {
-		type: FIXED_RATE
-		interval: 1
-		unit: ScalarmModel.ScalarmUnit.minutes
-	}
-
-	schedule Schedule1Sec {
-		type: FIXED_RATE
-		interval: 1
-		unit: ScalarmModel.ScalarmUnit.seconds
-	}
-
-	property AvailabilityProperty {
-		type: MEASURABLE
-		sensors [ScalarmMetric.AvailabilitySensor]
-	}
-
-	property CPUProperty {
-		type: MEASURABLE
-		sensors [ScalarmMetric.CPUSensor]
-	}
-
-	property ResponseTimeProperty {
-		type: MEASURABLE
-		sensors [ScalarmMetric.ResponseTimeSensor]
-	}
-
-	property ThroughputInSimulationsPerSecondProperty {
-		type: MEASURABLE
-		sensors [ScalarmMetric.ThroughputOfSimulationsExecutedByWorkerSensor]
-	}
-
-	property NumberOfSimulationsPerSecondProperty {
-		type: MEASURABLE
-		sensors [ScalarmMetric.NumberOfSimulationsLeftInTheExperimentSensor]
-	}
-
-	property MakespanProperty {
-		type: MEASURABLE
-	}
-
-	sensor AvailabilitySensor {
-		push
-	}
-
-	sensor CPUSensor {
-		configuration: 'de.uniulm.packagename.classname'
-		push
-	}
-
-	sensor ResponseTimeSensor {
-		push
-	}
-
-	sensor NumberOfSimulationsLeftInTheExperimentSensor {
-		push
-	}
-
-	sensor ThroughputOfSimulationsExecutedByWorkerSensor {
-		push
-	}
-
-	raw metric AvailabilityMetric {
-		value direction: 1
-		layer: SaaS
-		property: ScalarmModel.ScalarmMetric.AvailabilityProperty
-		unit: ScalarmModel.ScalarmUnit.AvailabilityUnit
-		value type: ScalarmModel.ScalarmType.DoubleRange_0_100
-	}
-
-	raw metric CPUMetric {
-		value direction: 0
-		layer: IaaS
-		property: ScalarmModel.ScalarmMetric.CPUProperty
-		unit: ScalarmModel.ScalarmUnit.CPUUnit
-		value type: ScalarmModel.ScalarmType.Range_0_100
-	}
-
-	raw metric ResponseTimeMetric {
-		value direction: 0
-		layer: SaaS
-		property: ScalarmModel.ScalarmMetric.ResponseTimeProperty
-		unit: ScalarmModel.ScalarmUnit.ResponseTimeUnit
-		value type: ScalarmModel.ScalarmType.Range_0_10000
-	}
-
-	raw metric ThroughputOfAWrokerMetric {
-		value direction: 1
-		layer: SaaS
-		property: ScalarmModel.ScalarmMetric.ThroughputInSimulationsPerSecondProperty
-		unit: ScalarmModel.ScalarmUnit.SimulationsPerSecondUnit
-	}
-
-	raw metric NumberOfSimulationsLeftInExperimentsMetric {
-		value direction: 0
-		layer: SaaS
-		property: ScalarmModel.ScalarmMetric.NumberOfSimulationsPerSecondProperty
-		unit: ScalarmModel.ScalarmUnit.NumberOfSimulationsLeftInExperimentUnit
-	}
-
-	composite metric MeanValueOfResponseTimeOfAllExprimentManagersMetric {
-		value direction: 0
-		layer: SaaS
-		property: ScalarmModel.ScalarmMetric.ResponseTimeProperty
-		unit: ScalarmModel.ScalarmUnit.ResponseTimeUnit
-
-		metric formula MeanValueOfResponseTimeOfAllExprimentManagersFormula {
-			function arity: UNARY
-			function pattern: MAP
-			MEAN(ScalarmModel.ScalarmMetric.ResponseTimeMetric)
-		}
-	}
-
-	composite metric SumOfThroughputsOfAllWorkersMetric {
-		value direction: 1
-		layer: SaaS
-		property: ScalarmModel.ScalarmMetric.ThroughputInSimulationsPerSecondProperty
-		unit: ScalarmModel.ScalarmUnit.ResponseTimeUnit
-
-		metric formula SumOfThroughputsOfAllWorkersFormula {
-			function arity: UNARY
-			function pattern: MAP
-			PLUS(ScalarmModel.ScalarmMetric.ThroughputOfAWrokerMetric)
-		}
-	}
-
-	composite metric MakespanMetric {
-		value direction: 0
-		layer: SaaS
-		property: ScalarmModel.ScalarmMetric.MakespanProperty
-		unit: ScalarmModel.ScalarmUnit.ExperimentMakespanInSecondsUnit
-
-		metric formula MakespanFormula {
-			function arity: BINARY
-			function pattern: MAP
-			DIV(ScalarmModel.ScalarmMetric.NumberOfSimulationsLeftInExperimentsMetric,ScalarmModel.ScalarmMetric.SumOfThroughputsOfAllWorkersMetric)
-		}
-	}
-
-	composite metric CPUAverage {
-		description: "Average of the CPU"
-		value direction: 1
-		layer: PaaS
-		property: ScalarmModel.ScalarmMetric.CPUProperty
-		unit: ScalarmModel.ScalarmUnit.CPUUnit
-
-		metric formula Formula_Average {
-			function arity: UNARY
-			function pattern: REDUCE
-			MEAN( ScalarmModel.ScalarmMetric.CPUMetric )
-		}
-	}
-
-	raw metric context StorageManagerAvailabilityContext {
-		metric: ScalarmModel.ScalarmMetric.AvailabilityMetric
-		sensor: ScalarmMetric.AvailabilitySensor
-		component: ScalarmModel.ScalarmDeployment.StorageManager
-		quantifier: ANY
-	}
-
-	raw metric context CPUMetricConditionContext {
-		metric: ScalarmModel.ScalarmMetric.CPUMetric
-		sensor: ScalarmMetric.CPUSensor
-		component: ScalarmModel.ScalarmDeployment.SimulationManager
-		quantifier: ANY
-	}
-
-	raw metric context ExperimentManagerResponseTimeContext {
-		metric: ScalarmModel.ScalarmMetric.ResponseTimeMetric
-		sensor: ScalarmMetric.ResponseTimeSensor
-		component: ScalarmModel.ScalarmDeployment.ExperimentManager
-		quantifier: ANY
-	}
-
-	raw metric context InformationServiceResponseTimeContext {
-		metric: ScalarmModel.ScalarmMetric.ResponseTimeMetric
-		sensor: ScalarmMetric.ResponseTimeSensor
-		component: ScalarmModel.ScalarmDeployment.InformationService
-		quantifier: ANY
-	}
-
-	raw metric context ThroughputOfAWrokerContext {
-		metric: ScalarmModel.ScalarmMetric.ThroughputOfAWrokerMetric
-		sensor: ScalarmMetric.ThroughputOfSimulationsExecutedByWorkerSensor
-		component: ScalarmModel.ScalarmDeployment.SimulationManager
-		quantifier: ANY
-	}
-
-	raw metric context NumberOfSimulationsLeftInExperimentsContext {
-		metric: ScalarmModel.ScalarmMetric.NumberOfSimulationsLeftInExperimentsMetric
-		sensor: ScalarmMetric.NumberOfSimulationsLeftInTheExperimentSensor
-		component: ScalarmModel.ScalarmDeployment.ExperimentManager
-		quantifier: ANY
-	}
-
-	raw metric context CPURawMetricContext {
-		metric: ScalarmModel.ScalarmMetric.CPUMetric
-		sensor: ScalarmMetric.CPUSensor
-		component: ScalarmModel.ScalarmDeployment.SimulationManager
-		schedule: ScalarmModel.ScalarmMetric.Schedule1Sec
-		quantifier: ALL
-	}
-
-	composite metric context AllExperimentManagersResponseTimeContext {
-		metric: ScalarmModel.ScalarmMetric.MeanValueOfResponseTimeOfAllExprimentManagersMetric
-		component: ScalarmModel.ScalarmDeployment.ExperimentManager
-		composing metric contexts [ScalarmModel.ScalarmMetric.ExperimentManagerResponseTimeContext]
-		quantifier: ANY
-	}
-
-	composite metric context SumOfThroughputsOfAllWorkersContext {
-		metric: ScalarmModel.ScalarmMetric.SumOfThroughputsOfAllWorkersMetric
-		component: ScalarmModel.ScalarmDeployment.SimulationManager
-		composing metric contexts [ScalarmModel.ScalarmMetric.ThroughputOfAWrokerContext]
-		quantifier: ANY
-	}
-
-	composite metric context MakespanContext {
-		metric: ScalarmModel.ScalarmMetric.MakespanMetric
-		component: ScalarmModel.ScalarmDeployment.ExperimentManager
-		composing metric contexts [ScalarmModel.ScalarmMetric.NumberOfSimulationsLeftInExperimentsContext, ScalarmModel.ScalarmMetric.SumOfThroughputsOfAllWorkersContext]
-		quantifier: ANY
-	}
-
-	composite metric context CPUAvgMetricContextAll {
-		metric: ScalarmModel.ScalarmMetric.CPUAverage
-		component: ScalarmModel.ScalarmDeployment.SimulationManager
-		window: ScalarmModel.ScalarmMetric.Win5Min
-		schedule: ScalarmModel.ScalarmMetric.Schedule1Min
-		composing metric contexts [ScalarmModel.ScalarmMetric.CPURawMetricContext]
-		quantifier: ALL
-	}
-
-	composite metric context CPUAvgMetricContextAny {
-		metric: ScalarmModel.ScalarmMetric.CPUAverage
-		component: ScalarmModel.ScalarmDeployment.SimulationManager
-		window: ScalarmModel.ScalarmMetric.Win1Min
-		schedule: ScalarmModel.ScalarmMetric.Schedule1Min
-		composing metric contexts [ScalarmModel.ScalarmMetric.CPURawMetricContext]
-		quantifier: ANY
-	}
-
-	metric condition StorageManagerAvailabilityCondition {
-		context: ScalarmModel.ScalarmMetric.StorageManagerAvailabilityContext
-		threshold: 99.0
-		comparison operator: >
-	}
-
-	metric condition CPUMetricCondition {
-		context: ScalarmModel.ScalarmMetric.CPUMetricConditionContext
-		threshold: 80.0
-		comparison operator: >
-	}
-
-	metric condition InformationServiceResponseCondition {
-		context: ScalarmModel.ScalarmMetric.InformationServiceResponseTimeContext
-		threshold: 700.0
-		comparison operator: <
-	}
-
-	metric condition ExperimentManagerResponseTimeCondition {
-		context: ScalarmModel.ScalarmMetric.ExperimentManagerResponseTimeContext
-		threshold: 0.3
-		comparison operator: >
-	}
-
-	metric condition CPUAvgMetricConditionAll {
-		context: ScalarmModel.ScalarmMetric.CPUAvgMetricContextAll
-		threshold: 50.0
-		comparison operator: >
-	}
-
-	metric condition CPUAvgMetricConditionAny {
-		context: ScalarmModel.ScalarmMetric.CPUAvgMetricContextAny
-		threshold: 80.0
-		comparison operator: >
-	}
-}
-
-type model ScalarmType {
-	range Range_0_100 {
-		primitive type: IntType
-		lower limit {int value 0 included}
-		upper limit {int value 100}
-	}
-
-	range Range_0_10000 {
-		primitive type: IntType
-		lower limit {int value 0}
-		upper limit {int value 1000 included}
-	}
-
-	range DoubleRange_0_100 {
-		primitive type: DoubleType
-		lower limit {double value 0.0 included}
-		upper limit {double value 100.0 included}
-	}
-}
-
-unit model ScalarmUnit {
-	monetary unit {Euro: EUROS}
-
-	dimensionless {CPUUnit: PERCENTAGE}
-
-	time interval unit {ResponseTimeUnit: MILLISECONDS}
-
-	dimensionless {AvailabilityUnit: PERCENTAGE}
-
-	throughput unit {SimulationsPerSecondUnit: TRANSACTIONS_PER_SECOND}
-
-	time interval unit {ExperimentMakespanInSecondsUnit: SECONDS}
-
-	transaction unit {NumberOfSimulationsLeftInExperimentUnit: TRANSACTIONS}
-
-	time interval unit {minutes : MINUTES}
-
-	time interval unit {seconds : SECONDS}
-}
 
 }
