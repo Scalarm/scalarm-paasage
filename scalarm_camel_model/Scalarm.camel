@@ -190,7 +190,7 @@ deployment model ScalarmDeployment {
 
 }
 
-requirement model metrarmRequirement {
+requirement model ScalarmRequirement {
 	quantitative hardware DefaultVM {
 		core: 4..6
 		ram: 4096..4096
