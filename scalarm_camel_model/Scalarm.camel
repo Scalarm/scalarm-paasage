@@ -83,10 +83,10 @@ deployment model ScalarmDeployment {
 		required host CoreIntensiveUbuntuGermanyHostReq
 
 		configuration InformationServiceConfiguration {
-			download: 'wget https://github.com/Scalarm/scalarm/archive/master.tar.gz; tar -zxvf master.tar.gz; scalarm-master/deployment_scripts/install_rvm.sh; scalarm-master/deployment_scripts/nginx/install.sh'
-			install: './scalarm_master/deployment_scripts/information_service/install.sh'
-			configure: './scalarm_master/deployment_scripts/information_service/configure.sh'
-			start: './scalarm_master/deployment_scripts/information_service/start.sh'
+			download: 'curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
+			install: './paasage-test-scripts-master/install.sh'
+			configure: './paasage-test-scripts-master/configure.sh'
+			start: './paasage-test-scripts-master/start.sh'
 		}
 	}
 
@@ -99,10 +99,10 @@ deployment model ScalarmDeployment {
 		required host StorageIntensiveUbuntuGermanyHostReq
 
 		configuration StoreManagerConfiguration {
-			download: 'wget https://github.com/Scalarm/scalarm/archive/master.tar.gz; tar -zxvf master.tar.gz; scalarm-master/deployment_scripts/install_rvm.sh; scalarm-master/deployment_scripts/nginx/install.sh'
-			install: './scalarm_master/deployment_scripts/storage_manager/install.sh'
-			configure: './scalarm_master/deployment_scripts/storage_manager/configure.sh'
-			start: './scalarm_master/deployment_scripts/storage_manager/start.sh'
+                        download: 'curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
+                        install: './paasage-test-scripts-master/install.sh'
+                        configure: './paasage-test-scripts-master/configure.sh'
+                        start: './paasage-test-scripts-master/start.sh'
 		}
 	}
 
@@ -116,10 +116,10 @@ deployment model ScalarmDeployment {
 		required host CoreIntensiveUbuntuGermanyHostReq
 
 		configuration ExperimentManagerConfiguration {
-			download: 'wget https://github.com/Scalarm/scalarm/archive/master.tar.gz; tar -zxvf master.tar.gz; scalarm-master/deployment_scripts/install_rvm.sh; scalarm-master/deployment_scripts/nginx/install.sh'
-			install: './scalarm_master/deployment_scripts/experiment_manager/install.sh'
-			configure: './scalarm_master/deployment_scripts/experiment_manager/configure.sh'
-			start: './scalarm_master/deployment_scripts/experiment_manager/start.sh'
+                        download: 'curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
+                        install: './paasage-test-scripts-master/install.sh'
+                        configure: './paasage-test-scripts-master/configure.sh'
+                        start: './paasage-test-scripts-master/start.sh'
 		}
 	}
 
@@ -131,10 +131,10 @@ deployment model ScalarmDeployment {
 		required host CPUIntensiveUbuntuGermanyHostReq
 
 		configuration SimulationManagerConfiguration {
-			download: 'wget https://github.com/Scalarm/scalarm/archive/master.tar.gz; tar -zxvf master.tar.gz; scalarm-master/deployment_scripts/install_rvm.sh; scalarm-master/deployment_scripts/nginx/install.sh'
-			install: './scalarm_master/deployment_scripts/simulation_manager/install.sh'
-			configure: './scalarm_master/deployment_scripts/simulation_manager/configure.sh'
-			start: './scalarm_master/deployment_scripts/simulation_manager/start.sh'
+                        download: 'curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
+                        install: './paasage-test-scripts-master/install.sh'
+                        configure: './paasage-test-scripts-master/configure.sh'
+                        start: './paasage-test-scripts-master/start.sh'
 		}
 	}
 
