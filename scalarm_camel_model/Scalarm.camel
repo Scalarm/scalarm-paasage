@@ -47,20 +47,18 @@ deployment model ScalarmDeployment {
 
 	requirement set CoreIntensiveUbuntuGermanyRS {
 		os: ScalarmRequirement.Ubuntu
-		quantitative hardware: ScalarmRequirement.CoreIntensive
-		location: ScalarmRequirement.GermanyReq
+		quantitative hardware: ScalarmRequirement.DefaultVM
+
 	}
 
 	requirement set CPUIntensiveUbuntuGermanyRS {
 		os: ScalarmRequirement.Ubuntu
-		quantitative hardware: ScalarmRequirement.CPUIntensive
-		location: ScalarmRequirement.GermanyReq
+		quantitative hardware: ScalarmRequirement.DefaultVM
 	}
 
 	requirement set StorageIntensiveUbuntuGermanyRS {
 		os: ScalarmRequirement.Ubuntu
-		quantitative hardware: ScalarmRequirement.StorageIntensive
-		location: ScalarmRequirement.GermanyReq
+		quantitative hardware: ScalarmRequirement.DefaultVM
 	}
 
 	vm CoreIntensiveUbuntuGermany {
@@ -99,10 +97,10 @@ deployment model ScalarmDeployment {
 		required host StorageIntensiveUbuntuGermanyHostReq
 
 		configuration StoreManagerConfiguration {
-                        download: 'curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
-                        install: './paasage-test-scripts-master/install.sh'
-                        configure: './paasage-test-scripts-master/configure.sh'
-                        start: './paasage-test-scripts-master/start.sh'
+			download: 'curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
+			install: './paasage-test-scripts-master/install.sh'
+			configure: './paasage-test-scripts-master/configure.sh'
+			start: './paasage-test-scripts-master/start.sh'
 		}
 	}
 
@@ -116,10 +114,10 @@ deployment model ScalarmDeployment {
 		required host CoreIntensiveUbuntuGermanyHostReq
 
 		configuration ExperimentManagerConfiguration {
-                        download: 'curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
-                        install: './paasage-test-scripts-master/install.sh'
-                        configure: './paasage-test-scripts-master/configure.sh'
-                        start: './paasage-test-scripts-master/start.sh'
+			download: 'curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
+			install: './paasage-test-scripts-master/install.sh'
+			configure: './paasage-test-scripts-master/configure.sh'
+			start: './paasage-test-scripts-master/start.sh'
 		}
 	}
 
@@ -131,10 +129,10 @@ deployment model ScalarmDeployment {
 		required host CPUIntensiveUbuntuGermanyHostReq
 
 		configuration SimulationManagerConfiguration {
-                        download: 'curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
-                        install: './paasage-test-scripts-master/install.sh'
-                        configure: './paasage-test-scripts-master/configure.sh'
-                        start: './paasage-test-scripts-master/start.sh'
+			download: 'curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
+			install: './paasage-test-scripts-master/install.sh'
+			configure: './paasage-test-scripts-master/configure.sh'
+			start: './paasage-test-scripts-master/start.sh'
 		}
 	}
 
@@ -193,75 +191,14 @@ deployment model ScalarmDeployment {
 }
 
 requirement model ScalarmRequirement {
-	quantitative hardware CoreIntensive {
-		core: 2..
-		ram: 2048..4096
-		cpu: 2.0..
+	quantitative hardware DefaultVM {
+		core: 4..6
+		ram: 4096..4096
 	}
 
-	quantitative hardware CPUIntensive {
-		core: 2..
-		ram: 2048..4096
-		cpu: 2.0..
-	}
-
-	quantitative hardware StorageIntensive {
-		core: 2..
-		ram: 2048..4096
-		cpu: 2.0..
-	}
 
 	os Ubuntu {os: 'Ubuntu' 64os}
-
-	location requirement GermanyReq {
-		locations [ScalarmLocation.DE]
-	}
-
-	location requirement UKReq {
-		locations [ScalarmLocation.UK]
-	}
-
-	horizontal scale requirement HorizontalScaleSimulationManager {
-		component: ScalarmModel.ScalarmDeployment.SimulationManager
-		instances: 1 .. 5
-	}
-
-	slo CPUMetricSLO {
-		service level: ScalarmModel.ScalarmMetric.CPUMetricCondition
-	}
-
-	optimisation requirement MinimiseResponseTimeInformationService {
-		function: MIN
-		metric: ScalarmModel.ScalarmMetric.ResponseTimeMetric
-		component: ScalarmModel.ScalarmDeployment.InformationService
-		priority: 3.0
-	}
-
-	optimisation requirement MaximiseAvailabilityStorageManager {
-		function: MAX
-		metric: ScalarmModel.ScalarmMetric.AvailabilityMetric
-		component: ScalarmModel.ScalarmDeployment.StorageManager
-		priority: 5.0
-	}
-
-	optimisation requirement MinimisePerformanceDegradationOfExperimentManager {
-		function: MIN
-		metric: ScalarmModel.ScalarmMetric.MeanValueOfResponseTimeOfAllExprimentManagersMetric
-		component: ScalarmModel.ScalarmDeployment.ExperimentManager
-		priority: 1.0
-	}
-
-	optimisation requirement MinimiseDataFarmingExperimentMakespan {
-		function: MIN
-		metric: ScalarmModel.ScalarmMetric.MakespanMetric
-		component: ScalarmModel.ScalarmDeployment.ExperimentManager
-		priority: 1.0
-	}
-
-	group ScalarmRequirementGroup {
-		operator: AND
-		requirements [ScalarmRequirement.CPUMetricSLO, ScalarmRequirement.MinimiseResponseTimeInformationService, ScalarmRequirement.MaximiseAvailabilityStorageManager, ScalarmRequirement.MinimisePerformanceDegradationOfExperimentManager, ScalarmRequirement.MinimiseDataFarmingExperimentMakespan]
-	}
+	
 }
 
 metric model ScalarmMetric {
@@ -582,29 +519,9 @@ scalability model ScalarmScalability {
 		operator: AND
 	}
 
-	scalability rule RawCPUScalabilityRule {
-		event: ScalarmModel.ScalarmScalability.CPUAvgMetricBEPAnd
-		actions [ScalarmModel.ScalarmScalability.HorizontalScalingSimulationManager]
-		scale requirements [ScalarmRequirement.HorizontalScaleSimulationManager]
-	}
 }
 
-location model ScalarmLocation {
-	region EU {
-		name: 'Europe'
-	}
 
-	country DE {
-		name: 'Germany'
-		parent regions [ScalarmLocation.EU]
-	}
-
-	country UK {
-		name: 'United Kingdom'
-		parent regions [ScalarmLocation.EU]
-	}
-
-}
 
 type model ScalarmType {
 	range Range_0_100 {
