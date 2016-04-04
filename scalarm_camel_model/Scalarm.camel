@@ -496,33 +496,6 @@ metric model ScalarmMetric {
 	}
 }
 
-scalability model ScalarmScalability {
-	horizontal scaling action HorizontalScalingSimulationManager {
-		type: SCALE OUT
-		vm: ScalarmModel.ScalarmDeployment.CPUIntensiveUbuntuGermany
-		internal component: ScalarmModel.ScalarmDeployment.SimulationManager
-	}
-
-	non-functional event CPUAvgMetricNFEAll {
-		metric condition: ScalarmModel.ScalarmMetric.CPUAvgMetricConditionAll
-		violation
-	}
-
-	non-functional event CPUAvgMetricNFEAny {
-		metric condition: ScalarmModel.ScalarmMetric.CPUAvgMetricConditionAny
-		violation
-	}
-
-	binary event pattern CPUAvgMetricBEPAnd {
-		left event: ScalarmModel.ScalarmScalability.CPUAvgMetricNFEAll
-		right event: ScalarmModel.ScalarmScalability.CPUAvgMetricNFEAny
-		operator: AND
-	}
-
-}
-
-
-
 type model ScalarmType {
 	range Range_0_100 {
 		primitive type: IntType
