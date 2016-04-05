@@ -77,7 +77,7 @@ deployment model ScalarmDeployment {
 	}
 
 	internal component InformationService {
-		provided communication InfSerPort {port: 11300}
+		provided communication InfSerPort {port: 443}
 		required host CoreIntensiveUbuntuGermanyHostReq
 
 		configuration InformationServiceConfiguration {
@@ -89,10 +89,10 @@ deployment model ScalarmDeployment {
 	}
 
 	internal component StorageManager {
-		provided communication StoManPort {port: 20001}
+		provided communication StoManPort {port: 443}
 		provided communication MongoDbPort {port: 27017}
 
-		required communication InfSerPortToSmReq {port: 11300 mandatory}
+		required communication InfSerPortReq {port: 443 mandatory}
 
 		required host StorageIntensiveUbuntuGermanyHostReq
 
@@ -107,9 +107,9 @@ deployment model ScalarmDeployment {
 	internal component ExperimentManager {
 		provided communication ExpManPort {port: 443}
 
-		required communication InfSerPortToEmReq {port: 11300 mandatory}
-		required communication StoManPortToEmReq {port: 20001 mandatory}
-		required communication MongoDbPortToEmReq {port: 27017 mandatory}
+		required communication InfSerPortReq {port: 443 mandatory}
+		required communication StoManPortReq {port: 443 mandatory}
+		required communication MongoDbPortReq {port: 27017 mandatory}
 
 		required host CoreIntensiveUbuntuGermanyHostReq
 
@@ -122,9 +122,9 @@ deployment model ScalarmDeployment {
 	}
 
 	internal component SimulationManager {
-		required communication InfSerPortToSimReq {port: 11300 mandatory}
-		required communication StoManPortToSimReq {port: 20001 mandatory}
-		required communication ExpManPortToSimReq {port: 443 mandatory}
+		required communication InfSerPortReq {port: 443 mandatory}
+		required communication StoManPortReq {port: 443 mandatory}
+		required communication ExpManPortReq {port: 443 mandatory}
 
 		required host CPUIntensiveUbuntuGermanyHostReq
 
