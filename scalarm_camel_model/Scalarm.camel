@@ -81,10 +81,10 @@ deployment model ScalarmDeployment {
 		required host CoreIntensiveUbuntuGermanyHostReq
 
 		configuration InformationServiceConfiguration {
-			download: 'apt-get install -y curl && curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
-			install: './paasage-test-scripts-master/install.sh'
-			configure: './paasage-test-scripts-master/configure.sh'
-			start: './paasage-test-scripts-master/start.sh'
+			download: 'apt-get install -y curl wget && curl -L https://github.com/Scalarm/scalarm/archive/paasage.tar.gz > paasage.tar.gz && tar -zxvf paasage.tar.gz && scalarm-paasage/deployment_scripts/install_rvm.sh'
+			install: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/information_service/install.sh"'
+			configure: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/information_service/configure.sh"'
+			start: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/information_service/start.sh && tail -f /dev/null"'
 		}
 	}
 
@@ -97,10 +97,10 @@ deployment model ScalarmDeployment {
 		required host StorageIntensiveUbuntuGermanyHostReq
 
 		configuration StoreManagerConfiguration {
-			download: 'apt-get install -y curl && curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
-			install: './paasage-test-scripts-master/install.sh'
-			configure: './paasage-test-scripts-master/configure.sh'
-			start: './paasage-test-scripts-master/start.sh'
+			download: 'apt-get install -y curl wget && curl -L https://github.com/Scalarm/scalarm/archive/paasage.tar.gz > paasage.tar.gz && tar -zxvf paasage.tar.gz && scalarm-paasage/deployment_scripts/install_rvm.sh'
+			install: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/storage_manager/install.sh"'
+			configure: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/storage_manager/configure.sh"'
+			start: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/storage_manager/start.sh && tail -f /dev/null"'
 		}
 	}
 
@@ -114,10 +114,10 @@ deployment model ScalarmDeployment {
 		required host CoreIntensiveUbuntuGermanyHostReq
 
 		configuration ExperimentManagerConfiguration {
-			download: 'apt-get install -y curl && curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
-			install: './paasage-test-scripts-master/install.sh'
-			configure: './paasage-test-scripts-master/configure.sh'
-			start: './paasage-test-scripts-master/start.sh'
+			download: 'apt-get install -y curl wget && curl -L https://github.com/Scalarm/scalarm/archive/paasage.tar.gz > paasage.tar.gz && tar -zxvf paasage.tar.gz && scalarm-paasage/deployment_scripts/install_rvm.sh'
+			install: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/experiment_manager/install.sh"'
+			configure: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/experiment_manager/configure.sh"'
+			start: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/experiment_manager/start.sh && tail -f /dev/null"'
 		}
 	}
 
@@ -129,10 +129,10 @@ deployment model ScalarmDeployment {
 		required host CPUIntensiveUbuntuGermanyHostReq
 
 		configuration SimulationManagerConfiguration {
-			download: 'apt-get install -y curl && curl -L https://github.com/kliput/paasage-test-scripts/archive/master.tar.gz > master.tar.gz && tar -zxvf master.tar.gz'
-			install: './paasage-test-scripts-master/install.sh'
-			configure: './paasage-test-scripts-master/configure.sh'
-			start: './paasage-test-scripts-master/start.sh'
+			download: 'apt-get install -y curl wget && curl -L https://github.com/Scalarm/scalarm/archive/paasage.tar.gz > paasage.tar.gz && tar -zxvf paasage.tar.gz '
+			install: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/simulation_manager/install.sh"'
+			configure: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/simulation_manager/configure.sh"'
+			start: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/simulation_manager/start.sh'
 		}
 	}
 
