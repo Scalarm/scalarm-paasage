@@ -155,37 +155,37 @@ deployment model ScalarmDeployment {
 
 	communication StorageManagerToInformationService {
 		type: REMOTE
-		from StorageManager.InfSerPortToSmReq to InformationService.InfSerPort
+		from StorageManager.InfSerPortReq to InformationService.InfSerPort
 	}
 
 	communication ExperimentManagerToStorageManager {
 		type: REMOTE
-		from ExperimentManager.StoManPortToEmReq to StorageManager.StoManPort
+		from ExperimentManager.StoManPortReq to StorageManager.StoManPort
 	}
 
 	communication ExperimentManagerToMongoDb {
 		type: REMOTE
-		from ExperimentManager.MongoDbPortToEmReq to StorageManager.MongoDbPort
+		from ExperimentManager.MongoDbPortReq to StorageManager.MongoDbPort
 	}
 
 	communication ExperimentManagerToInformationService {
 		type: REMOTE
-		from ExperimentManager.InfSerPortToEmReq to InformationService.InfSerPort
+		from ExperimentManager.InfSerPortReq to InformationService.InfSerPort
 	}
 
 	communication SimulationManagerToStorageManager {
 		type: REMOTE
-		from SimulationManager.StoManPortToSimReq to StorageManager.StoManPort
+		from SimulationManager.StoManPortReq to StorageManager.StoManPort
 	}
 
 	communication SimulationManagerToExperimentManager {
 		type: REMOTE
-		from SimulationManager.ExpManPortToSimReq to ExperimentManager.ExpManPort
+		from SimulationManager.ExpManPortReq to ExperimentManager.ExpManPort
 	}
 
 	communication SimulationManagerToInformationService {
 		type: REMOTE
-		from SimulationManager.InfSerPortToSimReq to InformationService.InfSerPort
+		from SimulationManager.InfSerPortReq to InformationService.InfSerPort
 	}
 
 }
@@ -199,7 +199,5 @@ requirement model ScalarmRequirement {
 	os Ubuntu {os: 'Ubuntu' 64os}
 	
 }
-
-
 
 }
