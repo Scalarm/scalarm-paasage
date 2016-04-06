@@ -83,8 +83,7 @@ deployment model ScalarmDeployment {
 		configuration InformationServiceConfiguration {
 			download: 'apt-get install -y curl wget && curl -L https://github.com/Scalarm/scalarm/archive/paasage.tar.gz > paasage.tar.gz && tar -zxvf paasage.tar.gz && scalarm-paasage/deployment_scripts/install_rvm.sh'
 			install: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/information_service/install.sh"'
-			configure: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/information_service/configure.sh"'
-			start: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/information_service/start.sh && tail -f /dev/null"'
+			start: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/configure.sh && ./scalarm-paasage/deployment_scripts/information_service/configure.sh && ./scalarm-paasage/deployment_scripts/nginx/start.sh && ./scalarm-paasage/deployment_scripts/information_service/start.sh && tail -f /dev/null"'
 		}
 	}
 
@@ -93,14 +92,14 @@ deployment model ScalarmDeployment {
 		provided communication MongoDbPort {port: 27017}
 
 		required communication InfSerPortReq {port: 443 mandatory}
+		required communication MongoDbPortReq {port: 27017 mandatory}
 
 		required host StorageIntensiveUbuntuGermanyHostReq
 
 		configuration StoreManagerConfiguration {
 			download: 'apt-get install -y curl wget && curl -L https://github.com/Scalarm/scalarm/archive/paasage.tar.gz > paasage.tar.gz && tar -zxvf paasage.tar.gz && scalarm-paasage/deployment_scripts/install_rvm.sh'
 			install: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/storage_manager/install.sh"'
-			configure: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/storage_manager/configure.sh"'
-			start: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/storage_manager/start.sh && tail -f /dev/null"'
+			start: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/configure.sh && ./scalarm-paasage/deployment_scripts/storage_manager/configure.sh && ./scalarm-paasage/deployment_scripts/nginx/start.sh && ./scalarm-paasage/deployment_scripts/storage_manager/start.sh && tail -f /dev/null"'
 		}
 	}
 
@@ -116,8 +115,7 @@ deployment model ScalarmDeployment {
 		configuration ExperimentManagerConfiguration {
 			download: 'apt-get install -y curl wget && curl -L https://github.com/Scalarm/scalarm/archive/paasage.tar.gz > paasage.tar.gz && tar -zxvf paasage.tar.gz && scalarm-paasage/deployment_scripts/install_rvm.sh'
 			install: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/experiment_manager/install.sh"'
-			configure: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/experiment_manager/configure.sh"'
-			start: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/experiment_manager/start.sh && tail -f /dev/null"'
+			start: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/configure.sh && ./scalarm-paasage/deployment_scripts/experiment_manager/configure.sh && ./scalarm-paasage/deployment_scripts/nginx/start.sh && ./scalarm-paasage/deployment_scripts/experiment_manager/start.sh && tail -f /dev/null"'
 		}
 	}
 
@@ -131,8 +129,7 @@ deployment model ScalarmDeployment {
 		configuration SimulationManagerConfiguration {
 			download: 'apt-get install -y curl wget && curl -L https://github.com/Scalarm/scalarm/archive/paasage.tar.gz > paasage.tar.gz && tar -zxvf paasage.tar.gz '
 			install: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/simulation_manager/install.sh"'
-			configure: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/simulation_manager/configure.sh"'
-			start: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/simulation_manager/start.sh'
+			start: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/simulation_manager/configure.sh" && ./scalarm-paasage/deployment_scripts/simulation_manager/start.sh'
 		}
 	}
 
@@ -197,7 +194,7 @@ requirement model ScalarmRequirement {
 	}
 
 	os Ubuntu {os: 'Ubuntu' 64os}
-	
+
 }
 
 }
