@@ -2,7 +2,7 @@ camel model ScalarmModel {
 
 application ScalarmApplication {
 	version: 'v1.0'
-	owner: AGHOrganisation.morzech
+	owner: AGHOrganisation.dkrol
 	deployment models [ScalarmModel.ScalarmDeployment]
 }
 
@@ -22,29 +22,29 @@ organisation model AGHOrganisation {
 		email: 'morzech@agh.edu.pl'
 	}
 
-	user morzech {
-		first name: Michal
-		last name: Orzechowski
-		email: 'morzech@agh.edu.pl'
+	user dkrol {
+		first name: Dariusz
+		last name: Krol
+		email: 'dkrol@agh.edu.pl'
 		paasage credentials 'morzech_at_agh_dot_edu_dot_pl'
-
+		
 		cloud credentials [
 			Flexiant {
 				cloud provider: ScalarmModel.RP_ProviderRequirements.GlobalProviderRequirements
 			}
-		]
-
+		]	
+		
 	}
 
 	security level: HIGH
 }
 
 deployment model ScalarmDeployment {
-
+	
 	requirement set NormalUbuntuGermanyRS {
-		os: ScalarmRequirement.Ubuntu
+		os: ScalarmRequirement.Ubuntu		
 	}
-
+	
 	requirement set CoreIntensiveUbuntuGermanyRS {
 		os: ScalarmRequirement.Ubuntu
 		quantitative hardware: ScalarmRequirement.DefaultVM
@@ -54,11 +54,13 @@ deployment model ScalarmDeployment {
 	requirement set CPUIntensiveUbuntuGermanyRS {
 		os: ScalarmRequirement.Ubuntu
 		quantitative hardware: ScalarmRequirement.DefaultVM
+
 	}
 
 	requirement set StorageIntensiveUbuntuGermanyRS {
 		os: ScalarmRequirement.Ubuntu
 		quantitative hardware: ScalarmRequirement.DefaultVM
+
 	}
 
 	vm CoreIntensiveUbuntuGermany {
@@ -75,61 +77,61 @@ deployment model ScalarmDeployment {
 		requirement set StorageIntensiveUbuntuGermanyRS
 		provided host StorageIntensiveUbuntuGermanyHost
 	}
-
+	
+	
 	internal component InformationService {
-		provided communication InfSerPort {port: 443}
+		provided communication InfSerPort {port: 11300}
 		required host CoreIntensiveUbuntuGermanyHostReq
 
 		configuration InformationServiceConfiguration {
-			download: 'apt-get install -y curl wget && curl -L https://github.com/Scalarm/scalarm/archive/paasage.tar.gz > paasage.tar.gz && tar -zxvf paasage.tar.gz && scalarm-paasage/deployment_scripts/install_rvm.sh'
-			install: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/information_service/install.sh"'
-			start: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/configure.sh && ./scalarm-paasage/deployment_scripts/information_service/configure.sh && ./scalarm-paasage/deployment_scripts/nginx/start.sh && ./scalarm-paasage/deployment_scripts/information_service/start.sh && tail -f /dev/null"'
+			download: 'sudo apt-get install -y wget xz-utils; wget https://github.com/kliput/scalarm_service_scripts/archive/paasage.tar.gz && sudo apt-get update && sudo apt-get install -y groovy ant && tar -zxvf paasage.tar.gz && cp -R scalarm_service_scripts-paasage/* ./'
+			install: './information_service_install.sh'
+			start: './information_service_start.sh'
 		}
 	}
-
+	
 	internal component StorageManager {
-		provided communication StoManPort {port: 443}
+		provided communication StoManPort {port: 20001}
 		provided communication MongoDbPort {port: 27017}
-
-		required communication InfSerPortReq {port: 443 mandatory}
-		required communication MongoDbPortReq {port: 27017 mandatory}
-
+		
+		required communication InfSerPortToSmReq {port: 11300 mandatory}
+		
 		required host StorageIntensiveUbuntuGermanyHostReq
 
 		configuration StoreManagerConfiguration {
-			download: 'apt-get install -y curl wget && curl -L https://github.com/Scalarm/scalarm/archive/paasage.tar.gz > paasage.tar.gz && tar -zxvf paasage.tar.gz && scalarm-paasage/deployment_scripts/install_rvm.sh'
-			install: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/storage_manager/install.sh"'
-			start: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/configure.sh && ./scalarm-paasage/deployment_scripts/storage_manager/configure.sh && ./scalarm-paasage/deployment_scripts/nginx/start.sh && ./scalarm-paasage/deployment_scripts/storage_manager/start.sh && tail -f /dev/null"'
+			download: 'sudo apt-get install -y wget xz-utils; wget https://github.com/kliput/scalarm_service_scripts/archive/paasage.tar.gz && sudo apt-get update && sudo apt-get install -y groovy ant && tar -zxvf paasage.tar.gz && cp -R scalarm_service_scripts-paasage/* ./'
+			install: './storage_manager_install.sh'
+			start: './storage_manager_start.sh'
 		}
-	}
+	}	
 
 	internal component ExperimentManager {
 		provided communication ExpManPort {port: 443}
-
-		required communication InfSerPortReq {port: 443 mandatory}
-		required communication StoManPortReq {port: 443 mandatory}
-		required communication MongoDbPortReq {port: 27017 mandatory}
-
+		
+		required communication InfSerPortToEmReq {port: 11300 mandatory}
+		required communication StoManPortToEmReq {port: 20001 mandatory}
+		required communication MongoDbPortToEmReq {port: 27017 mandatory}		
+		
 		required host CoreIntensiveUbuntuGermanyHostReq
 
 		configuration ExperimentManagerConfiguration {
-			download: 'apt-get install -y curl wget && curl -L https://github.com/Scalarm/scalarm/archive/paasage.tar.gz > paasage.tar.gz && tar -zxvf paasage.tar.gz && scalarm-paasage/deployment_scripts/install_rvm.sh'
-			install: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/install.sh && ./scalarm-paasage/deployment_scripts/experiment_manager/install.sh"'
-			start: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/nginx/configure.sh && ./scalarm-paasage/deployment_scripts/experiment_manager/configure.sh && ./scalarm-paasage/deployment_scripts/nginx/start.sh && ./scalarm-paasage/deployment_scripts/experiment_manager/start.sh && tail -f /dev/null"'
+			download: 'sudo apt-get install -y wget xz-utils; wget https://github.com/kliput/scalarm_service_scripts/archive/paasage.tar.gz && sudo apt-get update && sudo apt-get install -y groovy ant && tar -zxvf paasage.tar.gz && cp -R scalarm_service_scripts-paasage/* ./'
+			install: './experiment_manager_install.sh'
+			start: './experiment_manager_start.sh'
 		}
 	}
 
 	internal component SimulationManager {
-		required communication InfSerPortReq {port: 443 mandatory}
-		required communication StoManPortReq {port: 443 mandatory}
-		required communication ExpManPortReq {port: 443 mandatory}
-
+		required communication InfSerPortToSimReq {port: 11300 mandatory}		
+		required communication StoManPortToSimReq {port: 20001 mandatory}
+		required communication ExpManPortToSimReq {port: 443 mandatory}
+		
 		required host CPUIntensiveUbuntuGermanyHostReq
 
 		configuration SimulationManagerConfiguration {
-			download: 'apt-get install -y curl wget && curl -L https://github.com/Scalarm/scalarm/archive/paasage.tar.gz > paasage.tar.gz && tar -zxvf paasage.tar.gz '
-			install: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/simulation_manager/install.sh"'
-			start: 'bash -c "source ./scalarm-paasage/paasage/paasage_env.sh && ./scalarm-paasage/deployment_scripts/simulation_manager/configure.sh" && ./scalarm-paasage/deployment_scripts/simulation_manager/start.sh'
+			download: 'sudo apt-get install -y wget xz-utils; wget https://github.com/kliput/scalarm_service_scripts/archive/paasage.tar.gz && sudo apt-get update && sudo apt-get install -y groovy ant && tar -zxvf paasage.tar.gz && cp -R scalarm_service_scripts-paasage/* ./'
+			install: './simulation_manager_install.sh'
+			start: './simulation_manager_start.sh'
 		}
 	}
 
@@ -152,49 +154,51 @@ deployment model ScalarmDeployment {
 
 	communication StorageManagerToInformationService {
 		type: REMOTE
-		from StorageManager.InfSerPortReq to InformationService.InfSerPort
+		from StorageManager.InfSerPortToSmReq to InformationService.InfSerPort
 	}
 
 	communication ExperimentManagerToStorageManager {
 		type: REMOTE
-		from ExperimentManager.StoManPortReq to StorageManager.StoManPort
+		from ExperimentManager.StoManPortToEmReq to StorageManager.StoManPort
 	}
-
+	
 	communication ExperimentManagerToMongoDb {
 		type: REMOTE
-		from ExperimentManager.MongoDbPortReq to StorageManager.MongoDbPort
+		from ExperimentManager.MongoDbPortToEmReq to StorageManager.MongoDbPort
 	}
-
+	
 	communication ExperimentManagerToInformationService {
 		type: REMOTE
-		from ExperimentManager.InfSerPortReq to InformationService.InfSerPort
+		from ExperimentManager.InfSerPortToEmReq to InformationService.InfSerPort
 	}
 
 	communication SimulationManagerToStorageManager {
 		type: REMOTE
-		from SimulationManager.StoManPortReq to StorageManager.StoManPort
+		from SimulationManager.StoManPortToSimReq to StorageManager.StoManPort
 	}
 
 	communication SimulationManagerToExperimentManager {
 		type: REMOTE
-		from SimulationManager.ExpManPortReq to ExperimentManager.ExpManPort
+		from SimulationManager.ExpManPortToSimReq to ExperimentManager.ExpManPort
 	}
 
 	communication SimulationManagerToInformationService {
 		type: REMOTE
-		from SimulationManager.InfSerPortReq to InformationService.InfSerPort
+		from SimulationManager.InfSerPortToSimReq to InformationService.InfSerPort
 	}
 
 }
 
 requirement model ScalarmRequirement {
 	quantitative hardware DefaultVM {
-		core: 4..6
-		ram: 4096..4096
+		core: 4..
+		ram: 2048..4096
 	}
+
 
 	os Ubuntu {os: 'Ubuntu' 64os}
 
 }
+
 
 }
